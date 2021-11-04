@@ -143,6 +143,11 @@ namespace Microsoft.AspNetCore.Mvc.ModelBinding.Binders
 
             if (formatter == null)
             {
+                if (AllowEmptyBody && httpContext.Request.ContentLength == 0)
+                {
+                    return;
+                }
+
                 _logger.NoInputFormatterSelected(formatterContext);
 
                 var message = Resources.FormatUnsupportedContentType(httpContext.Request.ContentType);
